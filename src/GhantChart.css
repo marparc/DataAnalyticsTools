@@ -1,0 +1,299 @@
+.gantt-container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f8f9fa;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #666;
+  margin: 0;
+}
+
+.upload-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.file-upload-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  background: white;
+  color: #333;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.file-upload-label:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  background: #f8f9fa;
+}
+
+.upload-icon {
+  font-size: 1.2rem;
+}
+
+.file-input {
+  display: none;
+}
+
+.chart-section {
+  background: white;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.chart-title {
+  text-align: center;
+  color: #333;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.chart-wrapper {
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid #dee2e6;
+}
+
+.form-section {
+  background: white;
+  border-radius: 10px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.input-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+}
+
+.input-table th {
+  background: #f8f9fa;
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+  border: 1px solid #dee2e6;
+}
+
+.input-table td {
+  padding: 0.5rem;
+  border: 1px solid #dee2e6;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #0066cc;
+  box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.1);
+}
+
+.add-button {
+  background: #0066cc;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.add-button:hover {
+  background: #0052a3;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 102, 204, 0.2);
+}
+
+@media (max-width: 768px) {
+  .gantt-container {
+    padding: 0.5rem;
+  }
+  
+  .title {
+    font-size: 2rem;
+  }
+  
+  .input-table th,
+  .input-table td {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .form-section,
+  .chart-section,
+  .header {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .input-table {
+    font-size: 0.8rem;
+  }
+  
+  .input-table th,
+  .input-table td {
+    padding: 0.25rem;
+  }
+  
+  .form-input {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Custom Gantt Chart Styles */
+
+.custom-gantt {
+  border: 1px solid #ddd;
+  font-family: Arial, sans-serif;
+  background: white;
+}
+
+.gantt-header {
+  display: flex;
+  border-bottom: 2px solid #333;
+  font-weight: bold;
+  background-color: #f5f5f5;
+}
+
+.task-column-header {
+  width: 100px;
+  padding: 8px;
+  border-right: 1px solid #ddd;
+  text-align: center;
+}
+
+.duration-column-header {
+  width: 80px;
+  padding: 8px;
+  border-right: 1px solid #ddd;
+  text-align: center;
+}
+
+.timeline-header {
+  display: flex;
+  flex: 1;
+}
+
+.day-cell {
+  width: 30px;
+  padding: 8px 4px;
+  border-right: 1px solid #eee;
+  text-align: center;
+  font-size: 12px;
+}
+
+.gantt-row {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+  min-height: 40px;
+  align-items: center;
+}
+
+.task-name {
+  width: 100px;
+  padding: 8px;
+  border-right: 1px solid #ddd;
+  text-align: center;
+  font-weight: bold;
+}
+
+.task-duration {
+  width: 80px;
+  padding: 8px;
+  border-right: 1px solid #ddd;
+  text-align: center;
+}
+
+.timeline-row {
+  display: flex;
+  flex: 1;
+}
+
+.timeline-cell {
+  width: 30px;
+  height: 40px;
+  border-right: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.task-active {
+  background-color: #3498db;
+  color: white;
+}
+
+.day-numbers {
+  display: flex;
+  border-top: 1px solid #333;
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+
+.task-column-spacer {
+  width: 100px;
+  border-right: 1px solid #ddd;
+}
+
+.duration-column-spacer {
+  width: 80px;
+  border-right: 1px solid #ddd;
+}
+
+.timeline-numbers {
+  display: flex;
+  flex: 1;
+}
+
+.day-number {
+  width: 30px;
+  padding: 8px 4px;
+  border-right: 1px solid #eee;
+  text-align: center;
+  font-size: 12px;
+}
