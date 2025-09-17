@@ -201,17 +201,6 @@ const GhantChart = () => {
     return findCriticalPaths(tasks);
   }, [chartData]);
 
-  // Get critical path activities for highlighting
-  const criticalActivities = useMemo((): Set<string> => {
-    if (!pathAnalysis) return new Set();
-
-    const activities = new Set<string>();
-    pathAnalysis.criticalPaths.forEach((path: PathResult) => {
-      path.path.forEach((activity: string) => activities.add(activity));
-    });
-    return activities;
-  }, [pathAnalysis]);
-
   return (
     <div
       className="gantt-container"
