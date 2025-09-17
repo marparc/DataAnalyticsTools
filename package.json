@@ -14,6 +14,7 @@
     "@tailwindcss/vite": "^4.1.13",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "jstat": "^1.9.6",
     "lucide-react": "^0.544.0",
     "papaparse": "^5.5.3",
     "react": "^19.1.1",

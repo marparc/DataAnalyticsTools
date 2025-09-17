@@ -4,6 +4,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import StandardDev from "./standard-deviation";
 import OneSampleTTest from "./one-sample-t-test";
 import IndependentTtest from "./independent-ttest";
+import PairedTest from "./paired-ttest";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
       <Route path="/sd" element={<StandardDev />} />
       <Route path="/onesamplettest" element={<OneSampleTTest />} />
       <Route path="/independentttest" element={<IndependentTtest />} />
+      <Route path="/pairedttest" element={<PairedTest />} />
     </Routes>
   );
 };
@@ -33,6 +35,9 @@ const MainMenu = () => {
       </Button>
       <Button className="ml-10" onClick={() => navigate("/independentttest")}>
         Independent T-Test
+      </Button>
+      <Button className="ml-10" onClick={() => navigate("/pairedttest")}>
+        Paired T-Test
       </Button>
     </div>
   );
