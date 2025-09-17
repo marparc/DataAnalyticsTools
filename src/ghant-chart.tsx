@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import "./GhantChart.css";
 
 const GhantChart = () => {
@@ -110,6 +110,108 @@ const GhantChart = () => {
 
   const maxDays = getMaxDays();
 
+  // Add critical path finding function with proper types
+  interface Task {
+    activity: string;
+    predecessors: string;
+    et: number;
+  }
+
+  interface PathResult {
+    path: string[];
+    duration: number;
+  }
+
+  interface CriticalPathAnalysis {
+    criticalPaths: PathResult[];
+    otherPaths: PathResult[];
+    maxDuration: number;
+  }
+
+  const findCriticalPaths = (tasks: Task[]): CriticalPathAnalysis => {
+    // Convert list to a lookup map for quick access
+    const taskMap: { [key: string]: Task } = {};
+    tasks.forEach((t: Task) => {
+      taskMap[t.activity] = { ...t };
+    });
+
+    // Build adjacency list (graph)
+    const graph: { [key: string]: string[] } = {};
+    tasks.forEach((t: Task) => {
+      if (!graph[t.activity]) graph[t.activity] = [];
+      const preds = t.predecessors
+        ? t.predecessors.split(",").map((p: string) => p.trim())
+        : [];
+      preds.forEach((pred: string) => {
+        if (!graph[pred]) graph[pred] = [];
+        graph[pred].push(t.activity);
+      });
+    });
+
+    // Find all start nodes (those with no predecessors)
+    const starts = tasks
+      .filter((t: Task) => !t.predecessors || t.predecessors.trim() === "")
+      .map((t: Task) => t.activity);
+
+    let allPaths: PathResult[] = [];
+
+    function dfs(node: string, path: string[], duration: number): void {
+      const successors = graph[node] || [];
+      if (successors.length === 0) {
+        // End of path
+        allPaths.push({
+          path: [...path, node],
+          duration: duration + taskMap[node].et,
+        });
+        return;
+      }
+      successors.forEach((next: string) => {
+        dfs(next, [...path, node], duration + taskMap[node].et);
+      });
+    }
+
+    starts.forEach((start: string) => dfs(start, [], 0));
+
+    // Find the max duration
+    const maxDuration = Math.max(
+      ...allPaths.map((p: PathResult) => p.duration)
+    );
+
+    const criticalPaths = allPaths.filter(
+      (p: PathResult) => p.duration === maxDuration
+    );
+    const otherPaths = allPaths.filter(
+      (p: PathResult) => p.duration !== maxDuration
+    );
+
+    return { criticalPaths, otherPaths, maxDuration };
+  };
+
+  // Calculate critical paths when chart data changes
+  const pathAnalysis = useMemo((): CriticalPathAnalysis | null => {
+    if (chartData.length <= 1) return null;
+
+    // Convert chart data to the format expected by findCriticalPaths
+    const tasks: Task[] = chartData.slice(1).map((task) => ({
+      activity: String(task[0]),
+      predecessors: task[7] ? String(task[7]) : "",
+      et: Math.round((task[5] as number) / (1000 * 60 * 60 * 24)),
+    }));
+
+    return findCriticalPaths(tasks);
+  }, [chartData]);
+
+  // Get critical path activities for highlighting
+  const criticalActivities = useMemo((): Set<string> => {
+    if (!pathAnalysis) return new Set();
+
+    const activities = new Set<string>();
+    pathAnalysis.criticalPaths.forEach((path: PathResult) => {
+      path.path.forEach((activity: string) => activities.add(activity));
+    });
+    return activities;
+  }, [pathAnalysis]);
+
   return (
     <div
       className="gantt-container"
@@ -201,6 +303,61 @@ const GhantChart = () => {
               ))}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {pathAnalysis && (
+        <div
+          className="path-analysis-section"
+          style={{
+            margin: "20px 0",
+            padding: "15px",
+            border: "1px solid #ddd",
+            borderRadius: "5px",
+          }}
+        >
+          <h2 style={{ color: "#333", marginBottom: "15px" }}>Path Analysis</h2>
+
+          <div style={{ marginBottom: "15px" }}>
+            <h3 style={{ color: "#d32f2f", marginBottom: "10px" }}>
+              Critical Path(s) (Duration: {pathAnalysis.maxDuration} days):
+            </h3>
+            {pathAnalysis.criticalPaths.map((path, index) => (
+              <div
+                key={index}
+                style={{
+                  marginBottom: "5px",
+                  padding: "5px",
+                  backgroundColor: "#ffebee",
+                  borderRadius: "3px",
+                }}
+              >
+                <strong>{path.path.join(" → ")}</strong>
+              </div>
+            ))}
+          </div>
+
+          {pathAnalysis.otherPaths.length > 0 && (
+            <div>
+              <h3 style={{ color: "#1976d2", marginBottom: "10px" }}>
+                Other Paths:
+              </h3>
+              {pathAnalysis.otherPaths.map((path, index) => (
+                <div
+                  key={index}
+                  style={{
+                    marginBottom: "5px",
+                    padding: "5px",
+                    backgroundColor: "#e3f2fd",
+                    borderRadius: "3px",
+                  }}
+                >
+                  <strong>{path.path.join(" → ")}</strong> (Duration:{" "}
+                  {path.duration} days)
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
