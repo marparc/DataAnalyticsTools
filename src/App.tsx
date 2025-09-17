@@ -3,6 +3,7 @@ import { Button } from "../components/ui/button";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import StandardDev from "./standard-deviation";
 import OneSampleTTest from "./one-sample-t-test";
+import IndependentTtest from "./independent-ttest";
 
 const App = () => {
   return (
@@ -11,6 +12,7 @@ const App = () => {
       <Route path="/" element={<MainMenu />} />
       <Route path="/sd" element={<StandardDev />} />
       <Route path="/onesamplettest" element={<OneSampleTTest />} />
+      <Route path="/independentttest" element={<IndependentTtest />} />
     </Routes>
   );
 };
@@ -28,6 +30,9 @@ const MainMenu = () => {
       </Button>
       <Button onClick={() => navigate("/onesamplettest")}>
         One Sample T-Test
+      </Button>
+      <Button className="ml-10" onClick={() => navigate("/independentttest")}>
+        Independent T-Test
       </Button>
     </div>
   );
