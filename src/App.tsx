@@ -1,4 +1,5 @@
 import GhantChart from "./ghant-chart";
+import { Button } from "../components/ui/button";
 import { Route, Routes, useNavigate } from "react-router-dom";
 
 const App = () => {
@@ -15,7 +16,7 @@ const MainMenu = () => {
 
   return (
     <div>
-      <button onClick={() => navigate("/gantt")}>Go to Gantt Chart</button>
+      <Button onClick={() => navigate("/gantt")}>Gantt Chart</Button>
     </div>
   );
 };
