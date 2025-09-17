@@ -23,9 +23,18 @@ const GhantChart = () => {
     et: "",
   });
 
+  const [colors, setColors] = useState({
+    regularTask: "#1976d2",
+  });
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setColors({ ...colors, [name]: value });
   };
 
   const handleAddTask = () => {
@@ -260,6 +269,34 @@ const GhantChart = () => {
             </tr>
           </tbody>
         </table>
+
+        <div
+          style={{
+            margin: "15px 0",
+            display: "flex",
+            gap: "20px",
+            alignItems: "center",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <label style={{ fontSize: "14px", fontWeight: "500" }}>
+              Task Color:
+            </label>
+            <input
+              type="color"
+              name="regularTask"
+              value={colors.regularTask}
+              onChange={handleColorChange}
+              style={{
+                width: "40px",
+                height: "30px",
+                border: "1px solid #ccc",
+                borderRadius: "4px",
+              }}
+            />
+          </div>
+        </div>
+
         <button
           onClick={handleAddTask}
           className="add-button"
@@ -380,9 +417,12 @@ const GhantChart = () => {
                   (task[5] as number) / (1000 * 60 * 60 * 24)
                 );
 
+                const taskName = String(task[0]);
+                const taskColor = colors.regularTask;
+
                 return (
                   <div key={index} className="gantt-row">
-                    <div className="task-name">{String(task[0])}</div>
+                    <div className="task-name">{taskName}</div>
                     <div className="task-duration">{duration}</div>
                     <div className="timeline-row">
                       {Array.from({ length: maxDays }, (_, dayIndex) => {
@@ -395,6 +435,9 @@ const GhantChart = () => {
                             className={`timeline-cell ${
                               isTaskDay ? "task-active" : ""
                             }`}
+                            style={{
+                              color: isTaskDay ? taskColor : undefined,
+                            }}
                           >
                             {isTaskDay ? "█" : ""}
                           </div>
